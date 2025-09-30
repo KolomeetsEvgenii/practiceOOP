@@ -12,3 +12,5 @@ class Employee:
 
 manager = Employee()
 developer = Employee()
+
+print()
