@@ -1,70 +1,47 @@
-from datetime import datetime
+class Customer:
+    def __init__(self, name: str):
+        self.name = name
+        self.__discount = 10
+        # Добавьте сюда приватный атрибут "скидка"
+        # со значением по умолчанию 10.
+        ...
 
-
-class Store:
-    def __init__(self, address):
-        self.address: str = address
-
-    def __is_open(self, date) -> bool:
-        # Метод __is_open() в родительском классе всегда возвращает False,
-        # это "код-заглушка", метод, предназначенный для переопределения
-        # в дочерних классах.
-        # Не переопределяйте содержимое этого метода.
-        return False
-
-    def get_info(self, text_date) -> str:
-        # С помощью шаблона даты преобразуйте строку date_str в объект даты:
-        date_object = datetime.strptime(text_date, "%d.%m.%Y").date()
-
-        # Передайте в метод __is_open() объект даты date_object и определите,
-        # работает ли магазин в указанную дату.
-        # В зависимости от результата будет выбрано значение
-        # для переменной info.
-        if self.__is_open(date_object):
-            info = 'работает'
+    # Метод set_discount() принимает на вход
+    # новое значение для приватного атрибута "скидка".
+    # Если new_value превышает 80 -
+    # новое значение скидки должно стать 80.
+    # Метод не должен ничего возвращать.
+    def set_discount(self, new_value: int):
+        if new_value > 80:
+            self.__discount = 80
         else:
-            info = 'не работает'
-        return f'Магазин по адресу {self.address} {text_date} {info}'
+            self.__discount = new_value
+
+    # Метод get_price() получает на вход исходную стоимость товара
+    # и должен вернуть новую цену товара с учётом
+    # скидки покупателя.
+    # Возвращаемое значение округлите до двух знаков после запятой.
+    def get_price(self, price: int) -> float:
+        discount_amount = price * (self.__discount / 100)
+        final_price = price - discount_amount
+        return round(final_price, 2)
 
 
-class MiniStore(Store):
-    # Переопределите метод __is_open().
-    # Обратите внимание на имя метода/name mangling
-    def _Store__is_open(self, date: datetime) -> bool:
-        if (date.weekday() == 5) or (date.weekday() == 6):
-            return False
-        else:
-            return True
+customer = Customer('Иван Иванович')
 
+original_price = 85
 
-class WeekendStore(Store):
-    # Переопределите метод __is_open().
-    # Обратите внимание на имя метода/name mangling
-    def _Store__is_open(self, date: datetime) -> bool:
-        if (date.weekday() == 5) or (date.weekday() == 6):
-            return True
-        else:
-            return True
-
-
-class NonStopStore(Store):
-    # Переопределите метод __is_open().
-    # Обратите внимание на имя метода/name mangling
-    def _Store__is_open(self, date: datetime) -> bool:
-        return True
-
-
-mini_store = MiniStore('Улица Немига, 57')
-print(mini_store.get_info('29.03.2024'))
-print(mini_store.get_info('30.03.2024'))
-
-weekend_store = WeekendStore('Улица Толе би, 321')
-print(weekend_store.get_info('29.03.2024'))
-print(weekend_store.get_info('30.03.2024'))
-
-non_stop_store = NonStopStore('Улица Арбат, 60')
-print(non_stop_store.get_info('29.03.2024'))
-print(non_stop_store.get_info('30.03.2024'))
+print(
+    f'С исходной скидкой Иван Иванович заплатит '
+    f'{customer.get_price(original_price)} рублей вместо {original_price}'
+)
+# Изменим скидку до неприемлемого уровня.
+# Метод set_discount() должен установить размер скидки равным 80.
+customer.set_discount(90)
+print(
+    f'С новой скидкой Иван Иванович заплатит '
+    f'{customer.get_price(original_price)} рублей вместо {original_price}'
+)
 
 
 
@@ -84,6 +61,86 @@ print(non_stop_store.get_info('30.03.2024'))
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from datetime import datetime
+
+
+# class Store:
+#     def __init__(self, address):
+#         self.address: str = address
+
+#     def __is_open(self, date) -> bool:
+#         # Метод __is_open() в родительском классе всегда возвращает False,
+#         # это "код-заглушка", метод, предназначенный для переопределения
+#         # в дочерних классах.
+#         # Не переопределяйте содержимое этого метода.
+#         return False
+
+#     def get_info(self, text_date) -> str:
+#         # С помощью шаблона даты преобразуйте строку date_str в объект даты:
+#         date_object = datetime.strptime(text_date, "%d.%m.%Y").date()
+
+#         # Передайте в метод __is_open() объект даты date_object и определите,
+#         # работает ли магазин в указанную дату.
+#         # В зависимости от результата будет выбрано значение
+#         # для переменной info.
+#         if self.__is_open(date_object):
+#             info = 'работает'
+#         else:
+#             info = 'не работает'
+#         return f'Магазин по адресу {self.address} {text_date} {info}'
+
+
+# class MiniStore(Store):
+#     # Переопределите метод __is_open().
+#     # Обратите внимание на имя метода/name mangling
+#     def _Store__is_open(self, date: datetime) -> bool:
+#         if (date.weekday() == 5) or (date.weekday() == 6):
+#             return False
+#         else:
+#             return True
+
+
+# class WeekendStore(Store):
+#     # Переопределите метод __is_open().
+#     # Обратите внимание на имя метода/name mangling
+#     def _Store__is_open(self, date: datetime) -> bool:
+#         if (date.weekday() == 5) or (date.weekday() == 6):
+#             return True
+#         else:
+#             return True
+
+
+# class NonStopStore(Store):
+#     # Переопределите метод __is_open().
+#     # Обратите внимание на имя метода/name mangling
+#     def _Store__is_open(self, date: datetime) -> bool:
+#         return True
+
+
+# mini_store = MiniStore('Улица Немига, 57')
+# print(mini_store.get_info('29.03.2024'))
+# print(mini_store.get_info('30.03.2024'))
+
+# weekend_store = WeekendStore('Улица Толе би, 321')
+# print(weekend_store.get_info('29.03.2024'))
+# print(weekend_store.get_info('30.03.2024'))
+
+# non_stop_store = NonStopStore('Улица Арбат, 60')
+# print(non_stop_store.get_info('29.03.2024'))
+# print(non_stop_store.get_info('30.03.2024'))
 
 # class Product:
 #     # Опишите инициализатор класса.
