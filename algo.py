@@ -50,3 +50,52 @@ while left < right:
         right = mid
 
 print(left)
+
+# def find_element(sorted_numbers, element):
+#     left, right = 0, len(sorted_numbers)
+
+#     while left < right:
+#         mid = (left + right) // 2
+#         if sorted_numbers[mid] < element:
+#             left = mid + 1
+#         else:
+#             right = mid
+
+#     return left
+
+
+# arr = [1, 1, 1, 1]
+# print(find_element(arr, 1))
+
+# def delete_dublikat(sorted_numbers):
+#     arr = []
+#     arr.append(sorted_numbers[0])
+#     for i in range(1, len(sorted_numbers)):
+#         if sorted_numbers[i] != sorted_numbers[i - 1]:
+#             arr.append(sorted_numbers[i])
+        
+    
+#     result = arr + ['_'] * (len(sorted_numbers) - len(arr))
+#     return result
+
+
+# print(delete_dublikat([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
+
+example_array = [6, 5, 3, 1, 8, 7, 2, 4]
+
+
+def bubble_sort(data):
+    swapped = True
+    last_index = len(data) - 1
+    while swapped:
+        swapped = False
+        for item_index in range(last_index):
+            if data[item_index] > data[item_index + 1]:
+                data[item_index], data[item_index + 1] = data[item_index + 1], data[item_index]
+                swapped = True
+        last_index -= 1
+
+    return data
+
+
+print(bubble_sort(example_array))
